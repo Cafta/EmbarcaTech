@@ -1,0 +1,24 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 21,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "Pico",
+            "displayName": "Pico",
+            "description": "Using arm-none-eabi toolchain for Raspberry Pi Pico",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_C_COMPILER": "C:/Users/cafta/.pico-sdk/toolchain/13_3_Rel1/bin/arm-none-eabi-gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/Users/cafta/.pico-sdk/toolchain/13_3_Rel1/bin/arm-none-eabi-g++.exe",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "FORCE_CMAKE_LINKER_RESPONSE_FILE": "ON"
+            }
+        }
+    ]
+}
