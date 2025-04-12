@@ -68,7 +68,7 @@ target_link_libraries(Contador_por_interrupcoes
 #)
 
 # Gera o .pio.h
-#pico_generate_pio_header(Contador_por_interrupcoes ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio)
+pico_generate_pio_header(Contador_por_interrupcoes ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio)
 
 # Define os binários finais
 pico_add_extra_outputs(Contador_por_interrupcoes)
