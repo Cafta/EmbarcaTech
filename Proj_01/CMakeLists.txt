@@ -35,7 +35,10 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(Contador_por_interrupcoes Contador_por_interrupcoes.c)
+add_executable(Contador_por_interrupcoes 
+    Contador_por_interrupcoes.c
+    inc/ssd1306_i2c.c
+)
 
 pico_set_program_name(Contador_por_interrupcoes "Contador_por_interrupcoes")
 pico_set_program_version(Contador_por_interrupcoes "0.0.0")
@@ -63,9 +66,9 @@ target_link_libraries(Contador_por_interrupcoes
         hardware_pio
         )
 
-#target_sources(Contador_por_interrupcoes PRIVATE 
-#    inc/ssd1306_i2c.c  # 🛠️ Caminho correto do arquivo .c
-#)
+target_sources(Contador_por_interrupcoes PRIVATE 
+    inc/ssd1306_i2c.c  # 🛠️ Caminho correto do arquivo .c
+)
 
 # Gera o .pio.h
 pico_generate_pio_header(Contador_por_interrupcoes ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio)
