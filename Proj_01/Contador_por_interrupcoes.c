@@ -1,6 +1,6 @@
 /*
     EMBARCATECH Program 2025
-    Phase 1
+    Phase 2
     Exercise 1
 
     I started putting everything in English in the middle of this exercise, so you will

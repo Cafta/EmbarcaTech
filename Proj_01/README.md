@@ -27,4 +27,4 @@ Foi utilizada apenas a placa ***BitDogLab v.6.3*** idealizada pelo Prof. Fabiano
 
 ---
 
-![Imagem da placa](../../../pics/BitDogLab_v6.3.jpg)
+![Imagem da placa](../pics/BitDogLab_v6.3.jpg)
