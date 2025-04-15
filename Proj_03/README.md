@@ -1,11 +1,11 @@
 ## EMBARCATECH - FAZE 2 ##
-### *Project no. 2*   (apr/2025)
+### *Project no. 3*   (apr/2025)
 
 ---
 
 ### *Description:*
 
-Create a C program to read the digitally converted joystick values from the BitDogLab board. The values should be displayed either on the serial monitor or on the OLED display.
+Create a C program to read the internal temperature of the RP2040 and display the result in °C.
 
 ### *Techniques used in this project:*  
 * ADC (Analogic Digital Converter) on the RP2040

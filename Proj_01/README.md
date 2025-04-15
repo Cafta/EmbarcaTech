@@ -22,6 +22,11 @@ Faça um programa, em linguagem C, que implemente um contador decrescente contro
 * O número de cliques do Botão B é zerado
 * A contagem recomeça do início
 
+### *Techniques used in this project:*  
+* Button interrupts, Timer, and Alarm  
+* 5x5 LED matrix  
+* OLED display interface  
+
 ### *Material Utilizado:*
 Foi utilizada apenas a placa ***BitDogLab v.6.3*** idealizada pelo Prof. Fabiano Fruet (UNICAMP).
 
