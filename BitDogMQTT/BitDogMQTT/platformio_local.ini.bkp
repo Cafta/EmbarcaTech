@@ -1,0 +1,4 @@
+[env:native]
+platform     = native
+build_flags  = -Iinclude          ; ou lib/paho/include
+link_flags   = -Llib -lmosquitto_static

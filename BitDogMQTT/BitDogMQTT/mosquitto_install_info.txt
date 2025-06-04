@@ -1,0 +1,34 @@
+Para instalar o Mosquitto:
+(1) Baixe o instalador no site oficial
+(2) Instale o programa. 
+(3) Edite o arquivo mosquitto.conf de dentro da pasta onde instalou o mosquitto
+(3.1) procure (Ctr+F) por "# listener port-number"
+(3.2) na linha de baixo, descomente ela e coloque:
+        listener 1883
+        allow_anonymous true
+(3.3) Salve o arquivo
+(4) rode o mosquitto dentre deste diretório com o seguinte comando:
+        mosquitto -c mosquitto.conf -v
+
+PRONTINHO...
+
+##########  PARA TESTAR  ############
+Abra um outro terminal.
+Dentro da pasta de instalação do mosquitto (também pode colocar no PATH se quiser), rode:
+
+## PARA ENVIAR:
+    mosquitto_pub -h <IP_DO_BROKER> -t <tópico> -m "<mensagem>"
+    com usuario e senha: 
+    mosquitto_pub -h <IP_DO_BROKER> -u <user> -p <senha> -t <tópico> -m "<mensagem>"
+    exemplo: 
+    mosquitto_pub -h 192.168.43.212 -t topico/teste -m "Publiquei aqui Hello World"
+    mosquitto_pub -h 192.168.43.212 -t escola/sala1/temperatura -m "25.7" -u aluno -P senha123
+    
+
+## PARA RECEBER:   Esse fica escutando... até você cancelar...
+    mosquitto_sub -h <IP_DO_BROKER> -t <tópico>
+    exemplo: 
+    mosquitto_sub -h 192.168.43.212 -t topico/teste
+    mosquitto_sub -h localhost -t escola/sala1/temperatura -u aluno -P senha123
+     
+

@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <string.h>
+#include <mosquitto.h>
+
+#define ADDRESS     "tcp://192.168.43.212:1883"
+#define CLIENTID    "Cliente_C"
+#define TOPIC       "escola/sala1/temperatura_criptografada"
+#define QOS         1
+#define TIMEOUT     10000L
+#define XOR_KEY     42
+
+void on_connect(struct mosquitto *mosq, void *userdata, int rc) {
+    if (rc == 0) {
+        std::cout << "Conectado ao broker.\n";
+        mosquitto_subscribe(mosq, NULL, TOPIC, 0);
+    } else {
+        std::cerr << "Erro na conexão: " << rc << "\n";
+    }
+}
+
+void on_message(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *msg) {
+    std::cout << "Mensagem recebida: ";
+
+    const char* payload = static_cast<const char*>(msg->payload);
+    for (int i = 0; i < msg->payloadlen; ++i) {
+        char c = payload[i] ^ XOR_KEY;  // Descriptografar com XOR
+        std::cout << c;
+    }
+    std::cout << std::endl;
+}
+
+// Função para descriptografar com XOR
+void xor_decrypt(char* input, int length, char key) {
+    for (int i = 0; i < length; i++) {
+        input[i] ^= key;
+    }
+}
+
+int main() {
+    mosquitto_lib_init();
+
+    struct mosquitto *mosq = mosquitto_new(NULL, true, NULL);
+    if (!mosq) {
+        std::cerr << "Falha ao criar cliente Mosquitto.\n";
+        return 1;
+    }
+
+    mosquitto_connect_callback_set(mosq, on_connect);
+    mosquitto_message_callback_set(mosq, on_message);
+
+    int rc = mosquitto_connect(mosq, "localhost", 1883, 60);
+    if (rc != MOSQ_ERR_SUCCESS) {
+        std::cerr << "Erro ao conectar: " << mosquitto_strerror(rc) << "\n";
+        return 1;
+    }
+
+    mosquitto_loop_forever(mosq, -1, 1);
+
+    mosquitto_destroy(mosq);
+    mosquitto_lib_cleanup();
+
+    return 0;
+    
+    // MQTTClient client;
+    // MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+    // int rc;
+
+    // MQTTClient_create(&client, ADDRESS, CLIENTID, MQTTCLIENT_PERSISTENCE_NONE, NULL);
+
+    // conn_opts.keepAliveInterval = 20;
+    // conn_opts.cleansession = 1;
+
+    // if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS) {
+    //     printf("Erro na conexão, código %d\n", rc);
+    //     exit(EXIT_FAILURE);
+    // }
+
+    // printf("Conectado ao broker: %s\n", ADDRESS);
+    // MQTTClient_subscribe(client, TOPIC, QOS);
+
+    // while (1) {
+    //     MQTTClient_message* message = NULL;
+    //     char* topicName = NULL;
+    //     int topicLen;
+
+    //     if (MQTTClient_receive(client, &topicName, &topicLen, &message, TIMEOUT) == MQTTCLIENT_SUCCESS && message != NULL) {
+    //         printf("Mensagem recebida (%s): ", topicName);
+
+    //         char* payload = (char*) malloc(message->payloadlen + 1);
+    //         memcpy(payload, message->payload, message->payloadlen);
+    //         payload[message->payloadlen] = '\0';
+
+    //         xor_decrypt(payload, message->payloadlen, XOR_KEY);
+    //         printf("%s\n", payload);
+
+    //         free(payload);
+    //         MQTTClient_freeMessage(&message);
+    //         MQTTClient_free(topicName);
+    //     }
+    // }
+
+    // MQTTClient_disconnect(client, 10000);
+    // MQTTClient_destroy(&client);
+    // return rc;
+}
