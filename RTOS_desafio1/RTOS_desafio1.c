@@ -52,18 +52,17 @@ void blink_task(void *params) {
 // ● A tarefa do buzzer (beep curto a cada 1 segundo) 
 void buzzer_task(void *params) {
     #define BUZZER_PIN 21
-    // gpio_init(BUZZER_PIN);
-    // gpio_set_dir(BUZZER_PIN, GPIO_OUT);
-    gpio_set_function(BUZZER_PIN GPIO_FUNC_PWM);     
-    pwm_set_clkdiv(gpio_buzzer_slice, 100); // define o divisor do clock do RP2040 (125MHz / 100 = 1250KHz)
+    gpio_set_function(BUZZER_PIN, GPIO_FUNC_PWM); 
+    uint gpio_buzzer_slice = pwm_gpio_to_slice_num(BUZZER_PIN);  // descobre qual o Canal (slice) de frequencia desta porta    
+    pwm_set_clkdiv(gpio_buzzer_slice, 100.0f); // define o divisor do clock do RP2040 (125MHz / 100 = 1250KHz)
     pwm_set_wrap(gpio_buzzer_slice, 8000);  // "empacota" o ciclo em 8000 clocks (1250KHz / 8000 = 156Hz)
-    pwm_set_gpio_level(buzzer, 0);  // mantém High por 0 clocks => cycle em 0% => "desliga o buzzer" 
+    pwm_set_gpio_level(BUZZER_PIN, 0);  // mantém High por 0 clocks => cycle em 0% => "desliga o buzzer" 
     pwm_set_enabled(gpio_buzzer_slice, true);  // inicia o canal (slice)
 
     while (1) {
-        gpio_put(BUZZER_PIN, 1); // ativa o buzzer
+        pwm_set_gpio_level(BUZZER_PIN, 4000); // ativa o buzzer com duty cicle 50%
         vTaskDelay(pdMS_TO_TICKS(100)); // aguarda 100ms
-        gpio_put(BUZZER_PIN, 0); // desativa o buzzer
+        pwm_set_gpio_level(BUZZER_PIN, 0); // desativa o buzzer
         vTaskDelay(pdMS_TO_TICKS(900)); // aguarda 900ms
     }
 }
